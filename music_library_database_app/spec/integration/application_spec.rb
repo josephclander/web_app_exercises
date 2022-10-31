@@ -59,12 +59,21 @@ describe Application do
       response = get('/artists')
 
       expect(response.status).to eq 200
-      expect(response.body).to eq 'Pixies, ABBA, Taylor Swift, Nina Simone, Kiasmos'
+      expect(response.body).to include("Artist: <a href='/artists/1'>Pixies</a>")
+      expect(response.body).to include('Genre: Rock')
+      expect(response.body).to include("Artist: <a href='/artists/2'>ABBA</a>")
+      expect(response.body).to include('Genre: Pop')
+      expect(response.body).to include("Artist: <a href='/artists/3'>Taylor Swift</a>")
+      expect(response.body).to include('Genre: Pop')
+      expect(response.body).to include("Artist: <a href='/artists/4'>Nina Simone</a>")
+      expect(response.body).to include('Genre: Pop')
+      expect(response.body).to include("Artist: <a href='/artists/5'>Kiasmos</a>")
+      expect(response.body).to include('Genre: Experimental')
     end
   end
 
   context 'POST artist' do
-    it 'creates an artist' do
+    xit 'creates an artist' do
       response = post('/artist', name: 'Wild nothing', genre: 'Indie')
 
       expect(response.status).to eq 200
