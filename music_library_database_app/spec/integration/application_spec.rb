@@ -1,5 +1,5 @@
-require "spec_helper"
-require "rack/test"
+require 'spec_helper'
+require 'rack/test'
 require_relative '../../app'
 
 describe Application do
@@ -16,6 +16,17 @@ describe Application do
 
       expect(response.status).to eq 200
       expect(response.body).to eq 'Surfer Rosa, Waterloo, Super Trouper, Bossanova, Lover, Folklore, I Put a Spell on You, Baltimore, Here Comes the Sun, Fodder on My Wings, Ring Ring'
+    end
+  end
+
+  context 'GET album by id' do
+    it 'returns an album' do
+      response = get('/albums/2')
+
+      expect(response.status).to eq 200
+      expect(response.body).to include('<h1>Surfer Rosa</h1>')
+      expect(response.body).to include('Release year: 1988')
+      expect(response.body).to include('Artist: Pixies')
     end
   end
 
