@@ -15,9 +15,9 @@ describe Application do
       response = get('/albums')
 
       expect(response.status).to eq 200
-      expect(response.body).to include('Title: Surfer Rosa')
+      expect(response.body).to include('Title: <a href="/albums/2">Surfer Rosa</a>')
       expect(response.body).to include('Released: 1988')
-      expect(response.body).to include('Title: Waterloo')
+      expect(response.body).to include('Title: <a href="/albums/3">Waterloo</a>')
       expect(response.body).to include('Released: 1974')
     end
   end
@@ -39,8 +39,18 @@ describe Application do
       albums_response = get('/albums')
 
       expect(albums_response.status).to eq 200
-      expect(albums_response.body).to include('Title: Voyage')
+      expect(albums_response.body).to include('Title: <a href="/albums/13">Voyage</a>')
       expect(albums_response.body).to include('Released: 2022')
+    end
+  end
+
+  context 'GET artist by id' do
+    it 'returns a given artist' do
+      response = get('/artists/1')
+
+      expect(response.status).to eq 200
+      expect(response.body).to include('<h1>Artist: Pixies</h1>')
+      expect(response.body).to include('<p>Genre: Rock</p>')
     end
   end
 
