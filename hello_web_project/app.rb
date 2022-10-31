@@ -26,8 +26,7 @@ class Application < Sinatra::Base
   end
 
   get '/hello' do
-    name = params[:name]
-    "Hello #{name}"
+    return erb(:index)
     # url => http://localhost:9292/example?name=Joe
     # response => Hello Joe
   end

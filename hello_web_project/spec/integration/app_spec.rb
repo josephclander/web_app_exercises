@@ -26,11 +26,11 @@ describe Application do
     it 'returns 200 OK with the right content' do
       # Send a GET request to /
       # and returns a response object we can test.
-      response = get('/hello?name=Joe')
+      response = get('/hello')
 
       # Assert the response status code and body.
-      expect(response.status).to eq(200)
-      expect(response.body).to eq('Hello Joe')
+      # expect(response.status).to eq(200)
+      expect(response.body).to include('<h1>Hello</h1>')
     end
   end
 
