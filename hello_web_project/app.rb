@@ -22,7 +22,7 @@ class Application < Sinatra::Base
     # will be used as the response content.
     # Unless specified, the response status code
     # will be 200 (OK).
-    return 'This is the home page.'
+    return 'This is the homepage.'
   end
 
   get '/hello' do
@@ -36,5 +36,15 @@ class Application < Sinatra::Base
     name = params[:name]
     message = params[:message]
     "Thanks #{name}, you sent this message: '#{message}'"
+  end
+
+  get '/names' do
+    list = params[:list]
+    return list
+  end
+
+  get '/sorted-names' do
+    names = params[:names]
+    names.split(',').sort.join(',')
   end
 end
