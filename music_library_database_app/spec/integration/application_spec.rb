@@ -28,4 +28,24 @@ describe Application do
       expect(expected_result).to eq 'Voyage'
     end
   end
+
+  context 'GET artists' do
+    it 'returns all artists' do
+      response = get('/artists')
+
+      expect(response.status).to eq 200
+      expect(response.body).to eq 'Pixies, ABBA, Taylor Swift, Nina Simone, Kiasmos'
+    end
+  end
+
+  context 'POST artist' do
+    it 'creates an artist' do
+      response = post('/artist', name: 'Wild nothing', genre: 'Indie')
+
+      expect(response.status).to eq 200
+
+      result_set = get('/artists')
+      expect(result_set.body).to eq 'Pixies, ABBA, Taylor Swift, Nina Simone, Kiasmos, Wild nothing'
+    end
+  end
 end
