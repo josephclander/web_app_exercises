@@ -15,7 +15,10 @@ describe Application do
       response = get('/albums')
 
       expect(response.status).to eq 200
-      expect(response.body).to eq 'Surfer Rosa, Waterloo, Super Trouper, Bossanova, Lover, Folklore, I Put a Spell on You, Baltimore, Here Comes the Sun, Fodder on My Wings, Ring Ring'
+      expect(response.body).to include('Title: Surfer Rosa')
+      expect(response.body).to include('Released: 1988')
+      expect(response.body).to include('Title: Waterloo')
+      expect(response.body).to include('Released: 1974')
     end
   end
 
@@ -32,11 +35,12 @@ describe Application do
 
   context 'POST albums' do
     it 'creates a new album' do
-      response = post('/albums', title: 'Voyage', release_year: '2022', artist_id: 2)
-      result_set = get('/albums')
-      expected_result = result_set.body.split(', ').last
-      expect(response.status).to eq 200
-      expect(expected_result).to eq 'Voyage'
+      post('/albums', title: 'Voyage', release_year: '2022', artist_id: 2)
+      albums_response = get('/albums')
+
+      expect(albums_response.status).to eq 200
+      expect(albums_response.body).to include('Title: Voyage')
+      expect(albums_response.body).to include('Released: 2022')
     end
   end
 
