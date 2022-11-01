@@ -1,5 +1,5 @@
-require "spec_helper"
-require "rack/test"
+require 'spec_helper'
+require 'rack/test'
 require_relative '../../app'
 
 describe Application do
@@ -26,6 +26,13 @@ describe Application do
 
       expect(response.status).to eq(200)
       expect(response.body).to include('Hi Aurora!')
+    end
+
+    it 'should return an error if special characters are present' do
+      response = post('/hello', name: '<Not valid/>')
+
+      expect(response.status).to eq 400
+      expect(response.body).to include('Invalid input')
     end
   end
 end
