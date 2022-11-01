@@ -33,14 +33,48 @@ describe Application do
     end
   end
 
-  context 'POST albums' do
-    it 'creates a new album' do
-      post('/albums', title: 'Voyage', release_year: '2022', artist_id: 2)
-      albums_response = get('/albums')
+  context 'POST /albums' do
+    it 'returns a success page' do
+      response = post(
+        '/albums',
+        title: 'Voyage',
+        release_year: '2022',
+        artist_id: 2
+      )
 
-      expect(albums_response.status).to eq 200
-      expect(albums_response.body).to include('Title: <a href="/albums/13">Voyage</a>')
-      expect(albums_response.body).to include('Released: 2022')
+      expect(response.status).to eq 200
+      expect(response.body).to include('<p>Album successfully added</p>')
+    end
+
+    it 'responds with 400 status if parameters are invalid' do
+      response = post(
+        '/albums',
+        title: '',
+        release_year: '2022',
+        artist_id: 2
+      )
+      expect(response.status).to eq 400
+      expect(response.body).to include('<p>Album creation failure: Invalid input</p>')
+    end
+  end
+
+  # context 'POST albums' do
+  #   it 'creates a new album' do
+  #     post('/albums', title: 'Voyage', release_year: '2022', artist_id: 2)
+  #     albums_response = get('/albums')
+
+  #     expect(albums_response.status).to eq 200
+  #     expect(albums_response.body).to include('Title: <a href="/albums/13">Voyage</a>')
+  #     expect(albums_response.body).to include('Released: 2022')
+  #   end
+  # end
+
+  context 'GET /albums/new' do
+    it 'returns a form page' do
+      response = get('/albums/new')
+
+      expect(response.status).to eq 200
+      expect(response.body).to include('<h1>Add an Album</h1>')
     end
   end
 
