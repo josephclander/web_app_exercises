@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
   <head></head>
+  <title>Music Library: Albums</title>
   <body>
+    <header><div><a href="/">HOME</a></div></header>
     <h1>Albums</h1>
     <% @albums.each do |album| %>
         <div>Title: <a href="/albums/<%= album.id %>"><%= album.title %></a></div>

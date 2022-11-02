@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head></head>
+<title>Music Library: Artists</title>
     <body>
+        <header><div><a href="/">HOME</a></div></header>
         <h1>Artists</h1>
         <% @artists.each do |artist| %>
             <div>Artist: <a href='/artists/<%= artist.id %>'><%= artist.name %></a></div>

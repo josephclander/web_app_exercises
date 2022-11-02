@@ -14,6 +14,10 @@ class Application < Sinatra::Base
     also_reload 'lib/artist_repository'
   end
 
+  get '/' do
+    return erb(:index)
+  end
+
   get '/albums' do
     repo = AlbumRepository.new
     @albums = repo.all
@@ -35,7 +39,10 @@ class Application < Sinatra::Base
   end
 
   post '/albums' do
-
+    if invalid_album_params?
+      status 400
+      return erb(:album_failure)
+    end
     repo = AlbumRepository.new
     album = Album.new
     album.title = params[:title]
@@ -47,19 +54,9 @@ class Application < Sinatra::Base
     return erb(:album_success)
   end
 
-  def invalid_params?
+  def invalid_album_params?
     params[:title] == '' || params[:release_year] == '' || params[:artist_id] == ''
   end
-
-  # post '/albums' do
-  #   repo = AlbumRepository.new
-  #   album = Album.new
-  #   album.title = params[:title]
-  #   album.release_year = params[:release_year]
-  #   album.artist_id = params[:artist_id]
-
-  #   repo.create(album)
-  # end
 
   get '/artists' do
     repo = ArtistRepository.new
@@ -75,11 +72,26 @@ class Application < Sinatra::Base
     return erb(:artist)
   end
 
+  get '/artist/new' do
+    erb(:new_artist)
+  end
+
   post '/artist' do
+    if invalid_artist_params?
+      status 400
+      return erb(:artist_failure)
+    end
     repo = ArtistRepository.new
     artist = Artist.new
     artist.name = params[:name]
     artist.genre = params[:genre]
+
     repo.create(artist)
+
+    return erb(:artist_success)
+  end
+
+  def invalid_artist_params?
+    params[:name] == '' || params[:genre] == ''
   end
 end

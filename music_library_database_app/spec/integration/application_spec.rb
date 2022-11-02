@@ -58,17 +58,6 @@ describe Application do
     end
   end
 
-  # context 'POST albums' do
-  #   it 'creates a new album' do
-  #     post('/albums', title: 'Voyage', release_year: '2022', artist_id: 2)
-  #     albums_response = get('/albums')
-
-  #     expect(albums_response.status).to eq 200
-  #     expect(albums_response.body).to include('Title: <a href="/albums/13">Voyage</a>')
-  #     expect(albums_response.body).to include('Released: 2022')
-  #   end
-  # end
-
   context 'GET /albums/new' do
     it 'returns a form page' do
       response = get('/albums/new')
@@ -106,14 +95,31 @@ describe Application do
     end
   end
 
-  context 'POST artist' do
-    xit 'creates an artist' do
+  context 'GET /artist/new' do
+    it 'returns a form page' do
+      response = get('/artist/new')
+
+      expect(response.status).to eq 200
+      expect(response.body).to include('<h1>Add an Artist</h1>')
+    end
+  end
+
+  context 'POST /artist' do
+    it 'returns a success page' do
       response = post('/artist', name: 'Wild nothing', genre: 'Indie')
 
       expect(response.status).to eq 200
+      expect(response.body).to include('<p>Artist successfully added</p>')
+    end
 
-      result_set = get('/artists')
-      expect(result_set.body).to eq 'Pixies, ABBA, Taylor Swift, Nina Simone, Kiasmos, Wild nothing'
+    it 'responds with 400 status if parameters are invalid' do
+      response = post(
+        '/artist',
+        name: '',
+        genre: '2022'
+      )
+      expect(response.status).to eq 400
+      expect(response.body).to include('<p>Artist creation failure: Invalid input</p>')
     end
   end
 end
